@@ -37,6 +37,7 @@ const roles = [
 
 const techBadges = [
   { name: 'Python', icon: Code2, level: 95 },
+  { name: "Java", icon: Code2, level:80 },
   { name: 'Machine Learning', icon: Database, level: 92 },
   { name: 'Deep Learning', icon: Zap, level: 88 },
   { name: 'Gen AI & LLMs', icon: Zap, level: 95 },
