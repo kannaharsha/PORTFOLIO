@@ -32,16 +32,14 @@ export function ParticleBackground() {
 
     const initParticles = () => {
       particles = [];
-      const particleCount = Math.floor(window.innerWidth * 0.04); // Reduced density
+      const particleCount = Math.floor(window.innerWidth * 0.04);
 
       for (let i = 0; i < particleCount; i++) {
-        // Distribute sizes for depth: mostly small, some medium, few large
         const sizeRandom = Math.random();
         let size = 0.5;
-        if (sizeRandom > 0.8) size = Math.random() * 1.5 + 1; // Medium
-        if (sizeRandom > 0.95) size = Math.random() * 2 + 2.5; // Large (foreground)
+        if (sizeRandom > 0.8) size = Math.random() * 1.5 + 1;
+        if (sizeRandom > 0.95) size = Math.random() * 2 + 2.5;
 
-        // Speed correlates with size for parallax (larger = faster)
         const speedY = size * (Math.random() * 0.2 + 0.1);
         const speedX = (Math.random() - 0.5) * 0.2;
         
@@ -50,7 +48,7 @@ export function ParticleBackground() {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          baseX: 0, // Unused for now, but helpful for anchor points
+          baseX: 0,
           baseY: 0,
           size,
           speedY,
@@ -82,29 +80,24 @@ export function ParticleBackground() {
       const { x: mouseX, y: mouseY, radius } = mouseRef.current;
 
       particles.forEach((particle) => {
-        // Natural floating movement
         particle.y += particle.speedY;
         particle.x += particle.speedX;
 
-        // Mouse interaction for parallax/repel
         if (mouseX !== 0 && mouseY !== 0) {
           const dx = mouseX - particle.x;
           const dy = mouseY - particle.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           
           if (distance < radius) {
-            // Apply force inversely proportional to distance
             const force = (radius - distance) / radius;
             const forceDirectionX = dx / distance;
             const forceDirectionY = dy / distance;
             
-            // Push away from mouse
             particle.x -= forceDirectionX * force * particle.size;
             particle.y -= forceDirectionY * force * particle.size;
           }
         }
 
-        // Boundary wrapping
         if (particle.y > canvas.height) {
           particle.y = -10;
           particle.x = Math.random() * canvas.width;
@@ -115,11 +108,9 @@ export function ParticleBackground() {
           particle.x = canvas.width + 10;
         }
 
-        // Draw particle
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
         
-        // Dynamic styling for AI/futuristic glow
         const r = 59;
         const g = 130;
         const b = 246; 
