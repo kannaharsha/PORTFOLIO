@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { ImageWithFallback } from './components/figma/ImageWithFallback';
 import { ParticleBackground } from './components/ParticleBackground';
+import { GrainOverlay } from './components/GrainOverlay';
 
 const roles = [
   "AI Engineer",
@@ -585,6 +586,7 @@ export default function App() {
 
   return (
     <div className="bg-background text-foreground min-h-screen selection:bg-primary/30 selection:text-primary font-sans relative">
+      <GrainOverlay />
       <FloatingOrbs />
       <AmbientCodeLayer />
       <ParticleBackground />
