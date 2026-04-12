@@ -37,7 +37,7 @@ const roles = [
 
 const techBadges = [
   { name: 'Python', icon: Code2, level: 95 },
-  { name: "Java", icon: Code2, level:80 },
+  { name: 'Java', icon: Code2, level: 85 },
   { name: 'Machine Learning', icon: Database, level: 92 },
   { name: 'Deep Learning', icon: Zap, level: 88 },
   { name: 'Gen AI & LLMs', icon: Zap, level: 95 },
@@ -151,8 +151,9 @@ const internships = [
 const hackathons = [
   { title: "Aadhrita Hack24", role: "Technical Coordinator & Mentor", file: "/hackathons/Aadhrita Hack24 - coordinator Certificate.png" },
   { title: "GenzPluz Hack24", role: "Technical Coordinator", file: "/hackathons/GenzPluz Hack24 - coordinator Certificate.png" },
+  { title: "Google Solution Challenge", role: "Participant & Innovator", file: "/hackathons/Solution Challange.pdf" },
   { title: "Hack With Vizag", role: "Participant", file: "/hackathons/Hack With Vizag.pdf" },
-  { title: "Sankalp Hackathon", role: "Participant", file: "/hackathons/Sankalp.pdf" }
+  { title: "Sankalp Hackathon", role: "Participant & Solutions Architect", file: "/hackathons/Sankalp.pdf" }
 ];
 
 const stats = [
@@ -197,9 +198,9 @@ function AmbientCodeLayer() {
             y: "-10%",
           }}
           transition={{ 
-            duration: 25 + Math.random() * 15, 
+            duration: 15 + Math.random() * 10, 
             repeat: Infinity, 
-            delay: i * 1.5,
+            delay: i * 2,
             ease: "linear"
           }}
           className="absolute whitespace-nowrap"
@@ -214,17 +215,17 @@ function AmbientCodeLayer() {
 // === Floating ambient orbs for backgrounds ===
 function FloatingOrbs() {
   const orbs = [
-    { size: 400, x: "5%", y: "15%", color: "rgba(59,130,246,0.06)", dur: 18 },
-    { size: 300, x: "75%", y: "55%", color: "rgba(59,130,246,0.04)", dur: 24 },
-    { size: 200, x: "40%", y: "80%", color: "rgba(147,197,253,0.04)", dur: 15 },
+    { size: 400, x: "5%", y: "15%", color: "rgba(59,130,246,0.06)", dur: 12 },
+    { size: 300, x: "75%", y: "55%", color: "rgba(59,130,246,0.04)", dur: 16 },
+    { size: 200, x: "40%", y: "80%", color: "rgba(147,197,253,0.04)", dur: 10 },
   ];
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
       {orbs.map((orb, i) => (
         <motion.div
           key={i}
-          animate={{ y: [0, -30, 0], x: [0, 15, 0], scale: [1, 1.05, 1] }}
-          transition={{ duration: orb.dur, repeat: Infinity, ease: "easeInOut", delay: i * 3 }}
+          animate={{ y: [0, -20, 0], x: [0, 10, 0], scale: [1, 1.02, 1] }}
+          transition={{ duration: orb.dur, repeat: Infinity, ease: "easeInOut", delay: i * 2 }}
           style={{
             position: "absolute",
             left: orb.x,
@@ -233,7 +234,7 @@ function FloatingOrbs() {
             height: orb.size,
             borderRadius: "50%",
             background: orb.color,
-            filter: "blur(80px)",
+            filter: "blur(40px)",
           }}
         />
       ))}
@@ -248,7 +249,7 @@ function SectionHeader({ title, highlight, subtitle }: { title: string; highligh
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.4 }}
       className="text-center mb-16"
     >
       <h2 className="text-4xl md:text-5xl font-black text-white mb-3 tracking-tight">
@@ -273,7 +274,7 @@ function CardReveal({ children, index = 0, className = "" }: { children: React.R
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.07, ease: "easeOut" }}
+      transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
       className={className}
     >
       {children}
@@ -287,12 +288,206 @@ function SectionReveal({ children, id, className = "" }: { children: React.React
       id={id}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className={className}
     >
       {children}
     </motion.section>
+  );
+}
+
+function SkillBadge({ skill, index }: { skill: typeof techBadges[0]; index: number }) {
+  const [isActive, setIsActive] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.3, delay: index * 0.04 }}
+      onMouseEnter={() => setIsActive(true)}
+      onMouseLeave={() => setIsActive(false)}
+      onClick={() => setIsActive(!isActive)}
+      className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass-panel border border-white/5 hover:border-blue-400/50 transition-all cursor-default group relative"
+    >
+      <skill.icon className="text-blue-400" size={16} />
+      <span className="font-semibold text-sm text-white">{skill.name}</span>
+      <div className={`absolute -top-8 left-1/2 -translate-x-1/2 bg-blue-500 text-white text-[10px] font-black px-2 py-1 rounded transition-all whitespace-nowrap z-20 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}`}>
+        {skill.level}%
+        <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-blue-500" />
+      </div>
+    </motion.div>
+  );
+}
+
+function SkillCategoryCard({ category, index }: { category: typeof skillCategories[0]; index: number }) {
+  const [isActive, setIsActive] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.08 }}
+      onMouseEnter={() => setIsActive(true)}
+      onMouseLeave={() => setIsActive(false)}
+      onClick={() => setIsActive(!isActive)}
+      className={`p-5 rounded-2xl glass-panel border border-white/5 transition-all flex flex-col justify-between group cursor-pointer ${isActive ? 'border-blue-500/50 shadow-[0_0_25px_rgba(59,130,246,0.1)]' : 'hover:shadow-[0_0_25px_rgba(59,130,246,0.1)]'}`}
+    >
+      <div>
+        <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-3">
+          <div className="w-2 h-2 rounded-full bg-blue-400" />
+        </div>
+        <h3 className={`text-base font-bold text-white mb-2 transition-colors ${isActive ? 'text-blue-400' : 'group-hover:text-blue-400'}`}>{category.title}</h3>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {category.skills.map((skill, idx) => (
+            <span key={idx} className={`text-xs font-semibold px-2.5 py-1 rounded-md border transition-colors ${isActive ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-white/5 text-blue-100/90 border-white/10 group-hover:bg-blue-500/10 group-hover:text-blue-400 group-hover:border-blue-500/20'}`}>
+              {skill}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className="mt-auto">
+        <div className="flex justify-between text-xs font-semibold text-blue-300/70 mb-2 transition-all">
+          <span>Proficiency</span>
+          <span className={`text-blue-400 font-black transition-all duration-300 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0'}`}>
+            {category.percentage}%
+          </span>
+        </div>
+        <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+          <motion.div 
+            initial={{ width: 0 }}
+            animate={{ width: isActive ? `${category.percentage}%` : 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="h-full bg-blue-500 rounded-full" 
+          />
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+      className="h-[340px] w-full group cursor-pointer"
+      style={{ perspective: "1200px" }}
+      onClick={() => setIsFlipped(!isFlipped)}
+      onMouseEnter={() => !isFlipped && setIsFlipped(true)}
+      onMouseLeave={() => isFlipped && setIsFlipped(false)}
+    >
+      <div 
+        className={`relative w-full h-full transition-transform duration-500`}
+        style={{ 
+          transformStyle: "preserve-3d",
+          transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)"
+        }}
+      >
+        {/* Front */}
+        <div 
+          className="absolute inset-0 rounded-2xl overflow-hidden border border-white/10 group-hover:border-blue-500/40 transition-colors"
+          style={{ backfaceVisibility: "hidden" }}
+        >
+          <ImageWithFallback
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover opacity-60 group-hover:opacity-30 scale-100 group-hover:scale-105 transition-all duration-500"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#080810] via-[#080810]/50 to-transparent" />
+          <div className="absolute inset-0 p-5 flex flex-col justify-end">
+            <h3 className="text-lg font-bold text-white mb-1">{project.title}</h3>
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-widest">
+              Tap for Details <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+        </div>
+
+        {/* Back */}
+        <div 
+          className="absolute inset-0 rounded-2xl flex flex-col bg-[#080810] border-2 border-blue-500/30 p-5 overflow-hidden"
+          style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+        >
+          <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(rgba(59,130,246,1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,1)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
+          <div className="relative z-10 flex flex-col h-full">
+            <h4 className="text-base font-bold text-white mb-2">{project.title}</h4>
+            <p className="text-blue-200/80 text-xs leading-relaxed mb-4">{project.description}</p>
+            <div className="flex flex-wrap gap-2 mb-6">
+              {project.tags.map((tag, i) => (
+                <span key={i} className="text-xs font-bold uppercase px-2.5 py-1 bg-blue-900/30 text-blue-400 border border-blue-500/20 rounded-md">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div className="mt-auto">
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="flex items-center justify-center gap-2 bg-blue-500 hover:bg-white text-[#080810] font-black uppercase tracking-widest text-sm py-3 rounded-xl transition-all"
+              >
+                GitHub Repo <Github size={16} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function ProfileGraphic() {
+  const [isScanning, setIsScanning] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1, ease: "easeOut" }}
+      className="relative flex justify-center lg:justify-end p-4" // Added p-4 for ornament safety
+    >
+      <div 
+        className="relative w-[260px] h-[260px] sm:w-[280px] sm:h-[280px] md:w-[350px] md:h-[350px] group mx-auto lg:mr-0 cursor-pointer"
+        onMouseEnter={() => setIsScanning(true)}
+        onMouseLeave={() => setIsScanning(false)}
+        onClick={() => setIsScanning(!isScanning)}
+      >
+        {/* Tech Bracket Overlay Elements */}
+        {/* Using slightly larger offsets and ensuring visibility */}
+        <div className={`absolute -top-4 -left-4 w-12 h-12 border-t-[3.5px] border-l-[3.5px] rounded-tl-2xl z-20 pointer-events-none transition-colors duration-500 ${isScanning ? 'border-blue-400' : 'border-blue-500/70'}`} />
+        <div className={`absolute -top-4 -right-4 w-12 h-12 border-t-[3.5px] border-r-[3.5px] rounded-tr-2xl z-20 pointer-events-none transition-colors duration-500 ${isScanning ? 'border-blue-400' : 'border-blue-500/70'}`} />
+        <div className={`absolute -bottom-4 -left-4 w-12 h-12 border-b-[3.5px] border-l-[3.5px] rounded-bl-2xl z-20 pointer-events-none transition-colors duration-500 ${isScanning ? 'border-blue-400' : 'border-blue-500/70'}`} />
+        <div className={`absolute -bottom-4 -right-4 w-12 h-12 border-b-[3.5px] border-r-[3.5px] rounded-br-2xl z-20 pointer-events-none transition-colors duration-500 ${isScanning ? 'border-blue-400' : 'border-blue-500/70'}`} />
+
+        {/* Glassmorphic Frame */}
+        <div className={`w-full h-full p-3 rounded-3xl glass-panel border border-white/10 relative z-10 transition-shadow duration-700 ${isScanning ? 'shadow-[0_0_60px_rgba(59,130,246,0.3)]' : 'shadow-[0_0_40px_rgba(59,130,246,0.1)]'}`}>
+          <div className="w-full h-full rounded-2xl overflow-hidden relative border border-blue-500/10 bg-[#0B0C10]">
+            {/* The Sci-Fi Scanner */}
+            <motion.div 
+              animate={isScanning ? { y: ["-30%", "130%"] } : { y: "-100%" }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
+              className={`absolute top-0 left-0 w-full h-[60%] bg-gradient-to-b from-transparent via-blue-500/15 to-blue-500/40 border-b-[2.5px] border-blue-400 shadow-[0_15px_40px_rgba(59,130,246,0.5)] z-30 pointer-events-none transition-opacity duration-300 ${isScanning ? 'opacity-100' : 'opacity-0'}`} 
+            />
+            {/* The Image */}
+            <ImageWithFallback
+              src="/profile.jpg"
+              alt="Bokkena Harsha Teja"
+              className={`w-full h-full object-cover transition-all duration-[1s] relative z-10 ${isScanning ? 'grayscale-0 scale-[1.03]' : 'grayscale-[80%] scale-100'}`}
+            />
+            {/* Atmospheric Inner Glow */}
+            <div className={`absolute inset-0 transition-colors duration-700 z-20 pointer-events-none ${isScanning ? 'bg-transparent' : 'bg-blue-500/5'}`} />
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -441,7 +636,7 @@ export default function App() {
                     <motion.div
                       layoutId="activeTab"
                       className="absolute inset-0 bg-primary/10 rounded-lg"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
                     />
                   )}
                   <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
@@ -507,13 +702,13 @@ export default function App() {
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.4 }}
               className="space-y-6"
             >
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
+                transition={{ delay: 0.1 }}
                 className="text-blue-500 font-semibold tracking-wide text-lg"
               >
                 Hello, I'm
@@ -523,8 +718,8 @@ export default function App() {
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="text-7xl md:text-8xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-500"
+                  transition={{ delay: 0.15 }}
+                  className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-500 leading-tight pb-2"
                 >
                   Bokkena <br />
                   Harsha Teja
@@ -532,8 +727,8 @@ export default function App() {
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="text-3xl md:text-4xl text-blue-200/80 font-bold tracking-tight h-[48px] flex items-center"
+                  transition={{ delay: 0.2 }}
+                  className="text-2xl md:text-4xl text-blue-200/80 font-bold tracking-tight h-[48px] flex items-center"
                 >
                   <span className="text-blue-500 mr-2">{displayText}</span>
                   <span className="w-1 h-8 bg-blue-500 animate-[pulse_1s_infinite]" />
@@ -543,7 +738,7 @@ export default function App() {
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
+                transition={{ delay: 0.25 }}
                 className="text-blue-100/90 max-w-lg text-[17px] leading-relaxed font-medium"
               >
                 Engineer specializing in Agentic AI, NLP, and scalable architectures—transforming complex data models into seamless, production-grade applications.
@@ -552,7 +747,7 @@ export default function App() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
+                transition={{ delay: 0.3 }}
                 className="flex flex-wrap gap-5 pt-4"
               >
                 <button
@@ -580,7 +775,7 @@ export default function App() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.7 }}
+                transition={{ delay: 0.4 }}
                 className="flex gap-6 items-center pt-8 text-blue-200/80"
               >
                 <a href="https://github.com/kannaharsha" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 transition-colors">
@@ -596,40 +791,7 @@ export default function App() {
             </motion.div>
 
             {/* Right Content (Modular Square Profile) */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.2, ease: "easeOut" }}
-              className="relative flex justify-center lg:justify-end"
-            >
-              <div className="relative w-[280px] h-[280px] md:w-[350px] md:h-[350px] group mx-auto lg:mr-0">
-                {/* Tech Bracket Overlay Elements */}
-                <div className="absolute -top-3 -left-3 w-10 h-10 border-t-[3px] border-l-[3px] border-blue-500/70 rounded-tl-2xl z-20 pointer-events-none group-hover:border-blue-400 transition-colors duration-500" />
-                <div className="absolute -top-3 -right-3 w-10 h-10 border-t-[3px] border-r-[3px] border-blue-500/70 rounded-tr-2xl z-20 pointer-events-none group-hover:border-blue-400 transition-colors duration-500" />
-                <div className="absolute -bottom-3 -left-3 w-10 h-10 border-b-[3px] border-l-[3px] border-blue-500/70 rounded-bl-2xl z-20 pointer-events-none group-hover:border-blue-400 transition-colors duration-500" />
-                <div className="absolute -bottom-3 -right-3 w-10 h-10 border-b-[3px] border-r-[3px] border-blue-500/70 rounded-br-2xl z-20 pointer-events-none group-hover:border-blue-400 transition-colors duration-500" />
-
-                {/* Glassmorphic Frame */}
-                <div className="w-full h-full p-2.5 rounded-2xl glass-panel border border-white/10 relative z-10 shadow-[0_0_40px_rgba(59,130,246,0.1)] group-hover:shadow-[0_0_60px_rgba(59,130,246,0.2)] transition-shadow duration-700">
-                  <div className="w-full h-full rounded-xl overflow-hidden relative border border-blue-500/10 bg-[#0B0C10]">
-                    {/* The Sci-Fi Scanner */}
-                    <motion.div 
-                      animate={{ y: ["-30%", "130%"] }}
-                      transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
-                      className="absolute top-0 left-0 w-full h-[60%] bg-gradient-to-b from-transparent via-blue-500/15 to-blue-500/40 border-b-[2.5px] border-blue-400 shadow-[0_15px_40px_rgba(59,130,246,0.5)] opacity-0 group-hover:opacity-100 z-30 pointer-events-none" 
-                    />
-                    {/* The Image */}
-                    <ImageWithFallback
-                      src="/profile.jpg"
-                      alt="Bokkena Harsha Teja"
-                      className="w-full h-full object-cover grayscale-[80%] group-hover:grayscale-0 transition-all duration-[1s] group-hover:scale-[1.03] relative z-10"
-                    />
-                    {/* Atmospheric Inner Glow */}
-                    <div className="absolute inset-0 bg-blue-500/5 group-hover:bg-transparent transition-colors duration-700 z-20 pointer-events-none" />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+            <ProfileGraphic />
           </div>
         </div>
 
@@ -736,63 +898,14 @@ export default function App() {
           {/* Skill Badges */}
           <div className="flex flex-wrap justify-center gap-3 mb-14 max-w-4xl mx-auto">
             {techBadges.map((skill, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: index * 0.04 }}
-                whileHover={{ y: -3, boxShadow: "0 0 20px rgba(59,130,246,0.25)" }}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass-panel border border-white/5 hover:border-blue-400/50 transition-all cursor-default group relative"
-              >
-                <skill.icon className="text-blue-400" size={16} />
-                <span className="font-semibold text-sm text-white">{skill.name}</span>
-                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-blue-500 text-white text-xs font-black px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-all whitespace-nowrap">
-                  {skill.level}%
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-blue-500" />
-                </div>
-              </motion.div>
+              <SkillBadge key={index} skill={skill} index={index} />
             ))}
           </div>
 
           {/* Category Cards — fixed height, uniform */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {skillCategories.map((category, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.08 }}
-                whileHover={{ y: -4, borderColor: "rgba(59,130,246,0.5)" }}
-                className="p-5 rounded-2xl glass-panel border border-white/5 hover:shadow-[0_0_25px_rgba(59,130,246,0.1)] transition-all group flex flex-col justify-between"
-              >
-                <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-3">
-                  <div className="w-2 h-2 rounded-full bg-blue-400" />
-                </div>
-                <h3 className="text-base font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">{category.title}</h3>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {category.skills.map((skill, idx) => (
-                    <span key={idx} className="text-xs font-semibold px-2.5 py-1 bg-white/5 text-blue-100/90 rounded-md border border-white/10 group-hover:bg-blue-500/10 group-hover:text-blue-400 group-hover:border-blue-500/20 transition-colors">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-                <div className="mt-auto">
-                  <div className="flex justify-between text-xs font-semibold text-blue-300/70 mb-2 transition-all">
-                    <span>Proficiency</span>
-                    <span className="text-blue-400 font-black opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                      {category.percentage}%
-                    </span>
-                  </div>
-                  <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-blue-500 rounded-full w-0 group-hover:w-full transition-all duration-1000 ease-out opacity-0 group-hover:opacity-100" 
-                      style={{ maxWidth: `${category.percentage}%` }}
-                    />
-                  </div>
-                </div>
-              </motion.div>
+              <SkillCategoryCard key={index} category={category} index={index} />
             ))}
           </div>
         </div>
@@ -825,6 +938,14 @@ export default function App() {
                 <div className="w-full md:w-[45%] flex md:justify-end justify-start">
                   <div className="glass-panel p-6 md:p-8 rounded-2xl border-blue-500/30 shadow-[0_0_20px_rgba(59,130,246,0.1)] relative w-full group overflow-hidden hover:border-blue-500/60 transition-colors">
                     <div className="hidden md:block absolute top-[40%] -right-[12%] w-[12%] h-[2px] bg-blue-500/30 group-hover:bg-blue-400 transition-colors pointer-events-none"></div>
+                    {/* Scanner Effect - reveal on mobile scroll or desktop hover */}
+                    <motion.div 
+                      initial={{ y: "-100%" }}
+                      whileInView={{ y: "100%" }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1.5, ease: "linear", delay: 0.3 }}
+                      className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/10 to-transparent z-10 pointer-events-none opacity-30" 
+                    />
                     <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-[40px] pointer-events-none rounded-full"></div>
                     <div className="flex flex-col md:text-right text-left relative z-10">
                       <div className="flex items-center md:justify-end justify-start gap-2 text-blue-400 mb-4">
@@ -856,6 +977,14 @@ export default function App() {
                 <div className="w-full md:w-[45%] flex justify-start">
                   <div className="glass-panel p-6 md:p-8 rounded-2xl border-blue-500/20 hover:border-blue-500/50 shadow-lg relative w-full group transition-colors overflow-hidden">
                     <div className="hidden md:block absolute top-[40%] -left-[12%] w-[12%] h-[2px] bg-blue-500/20 group-hover:bg-blue-400 transition-colors pointer-events-none"></div>
+                    {/* Scanner Effect */}
+                    <motion.div 
+                      initial={{ y: "-100%" }}
+                      whileInView={{ y: "100%" }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1.5, ease: "linear", delay: 0.5 }}
+                      className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/10 to-transparent z-10 pointer-events-none opacity-30" 
+                    />
                     <div className="absolute top-0 left-0 w-32 h-32 bg-blue-500/5 blur-[40px] pointer-events-none rounded-full"></div>
                     <div className="flex flex-col text-left relative z-10">
                       <div className="flex items-center justify-start gap-2 text-blue-400 mb-4">
@@ -909,10 +1038,10 @@ export default function App() {
                 {activeArsenalTab === 'internships' && (
                   <motion.div
                     key="internships"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.4 }}
                     className="grid gap-6"
                   >
                     {internships.map((item, i) => (
@@ -921,6 +1050,14 @@ export default function App() {
                           whileHover={{ x: 4, borderColor: "rgba(59,130,246,0.4)" }}
                           className="flex items-center gap-5 p-5 rounded-2xl glass-panel border border-white/5 group transition-all relative overflow-hidden"
                         >
+                          {/* Scanner Effect */}
+                          <motion.div 
+                            initial={{ x: "-100%" }}
+                            whileInView={{ x: "100%" }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1.2, ease: "linear", delay: 0.2 }}
+                            className="absolute inset-y-0 w-32 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent z-10 pointer-events-none opacity-40 ml-[-50px]" 
+                          />
                           {/* Hover shimmer */}
                           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
@@ -954,10 +1091,10 @@ export default function App() {
                 {activeArsenalTab === 'certifications' && (
                   <motion.div
                     key="certifications"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.4 }}
                     className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
                   >
                     {certifications.map((item, i) => (
@@ -987,13 +1124,13 @@ export default function App() {
                 {activeArsenalTab === 'leadership' && (
                   <motion.div
                     key="leadership"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.4 }}
                     className="grid md:grid-cols-2 gap-6"
                   >
-                    {hackathons.filter(h => h.role.includes("Coordinator")).map((item, i) => (
+                    {hackathons.map((item, i) => (
                       <motion.div 
                         key={i}
                         className="p-8 rounded-3xl glass-panel border-white/5 border-l-2 border-l-blue-500/40 group overflow-hidden"
@@ -1021,68 +1158,7 @@ export default function App() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.06 }}
-                className="h-[340px] w-full group cursor-pointer"
-                style={{ perspective: "1200px" }}
-              >
-                <div 
-                  className="relative w-full h-full transition-transform duration-700 group-hover:[transform:rotateY(180deg)]"
-                  style={{ transformStyle: "preserve-3d" }}
-                >
-                  {/* Front */}
-                  <div 
-                    className="absolute inset-0 rounded-2xl overflow-hidden border border-white/10 group-hover:border-blue-500/40 transition-colors"
-                    style={{ backfaceVisibility: "hidden" }}
-                  >
-                    <ImageWithFallback
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover opacity-60 group-hover:opacity-30 scale-100 group-hover:scale-105 transition-all duration-700"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#080810] via-[#080810]/50 to-transparent" />
-                    <div className="absolute inset-0 p-5 flex flex-col justify-end">
-                      <h3 className="text-lg font-bold text-white mb-1">{project.title}</h3>
-                      <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-widest">
-                        View Details <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Back */}
-                  <div 
-                    className="absolute inset-0 rounded-2xl flex flex-col bg-[#080810] border-2 border-blue-500/30 p-5 overflow-hidden"
-                    style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
-                  >
-                    <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(rgba(59,130,246,1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,1)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
-                    <div className="relative z-10 flex flex-col h-full">
-                      <h4 className="text-base font-bold text-white mb-2">{project.title}</h4>
-                      <p className="text-blue-200/80 text-xs leading-relaxed mb-4">{project.description}</p>
-                      <div className="flex flex-wrap gap-2 mb-6">
-                        {project.tags.map((tag, i) => (
-                          <span key={i} className="text-xs font-bold uppercase px-2.5 py-1 bg-blue-900/30 text-blue-400 border border-blue-500/20 rounded-md">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                      <div className="mt-auto">
-                        <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 bg-blue-500 hover:bg-white text-[#080810] font-black uppercase tracking-widest text-sm py-3 rounded-xl transition-all"
-                        >
-                          GitHub Repo <Github size={16} />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+              <ProjectCard key={index} project={project} index={index} />
             ))}
           </div>
 
@@ -1100,6 +1176,7 @@ export default function App() {
           </div>
         </div>
       </SectionReveal>
+
 
       {/* Contact Section */}
       <section id="contact" className="py-24 relative">
