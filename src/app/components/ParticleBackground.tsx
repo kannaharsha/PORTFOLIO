@@ -32,7 +32,7 @@ export function ParticleBackground() {
 
     const initParticles = () => {
       particles = [];
-      const particleCount = Math.floor(window.innerWidth * 0.07); // Responsive count
+      const particleCount = Math.floor(window.innerWidth * 0.04); // Reduced density
 
       for (let i = 0; i < particleCount; i++) {
         // Distribute sizes for depth: mostly small, some medium, few large
@@ -122,17 +122,9 @@ export function ParticleBackground() {
         // Dynamic styling for AI/futuristic glow
         const r = 59;
         const g = 130;
-        const b = 246; // Tailwind blue-500 equivalent oklch matches primary nicely
+        const b = 246; 
         
         ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${particle.opacity})`;
-        
-        if (particle.size > 1.5) {
-          ctx.shadowBlur = 15;
-          ctx.shadowColor = `rgba(${r}, ${g}, ${b}, 0.8)`;
-        } else {
-          ctx.shadowBlur = 0; // Optimize performance by skipping shadow on small particles
-        }
-        
         ctx.fill();
       });
 
