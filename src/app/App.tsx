@@ -82,7 +82,8 @@ const projects = [
     description: 'A machine learning system built in Python to accurately predict health insurance premiums based on user data.',
     image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80',
     tags: ['Python', 'Machine Learning', 'Healthcare ML'],
-    link: 'https://github.com/kannaharsha/ml-project-premium-predection'
+    link: 'https://github.com/kannaharsha/ml-project-premium-predection',
+    liveLink: 'https://ml-project-premium-prediction-analysis.streamlit.app/'
   },
   {
     title: 'Business Analysis Lab',
@@ -96,7 +97,8 @@ const projects = [
     description: 'A powerful machine learning model designed to accurately assess and predict financial credit risk.',
     image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80',
     tags: ['Jupyter Notebook', 'Finance', 'ML'],
-    link: 'https://github.com/kannaharsha/ml-credit-risk-model'
+    link: 'https://github.com/kannaharsha/ml-credit-risk-model',
+    liveLink: 'https://ml-project-credit-risk-modeling.streamlit.app/'
   },
   {
     title: 'Real Estate Research Tool',
@@ -423,15 +425,26 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
                 </span>
               ))}
             </div>
-            <div className="mt-auto">
+            <div className={`mt-auto ${project.liveLink ? 'grid grid-cols-2 gap-2' : 'flex'}`}>
+              {project.liveLink && (
+                <a
+                  href={project.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex items-center justify-center gap-1.5 bg-white hover:bg-blue-400 text-[#080810] font-black uppercase tracking-wider text-[10px] py-3 rounded-xl transition-all"
+                >
+                  Live <ExternalLink size={14} />
+                </a>
+              )}
               <a
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="flex items-center justify-center gap-2 bg-blue-500 hover:bg-white text-[#080810] font-black uppercase tracking-widest text-sm py-3 rounded-xl transition-all"
+                className={`flex items-center justify-center gap-1.5 bg-blue-500 hover:bg-white text-[#080810] font-black uppercase tracking-wider text-[10px] py-3 rounded-xl transition-all ${!project.liveLink ? 'w-full' : ''}`}
               >
-                GitHub Repo <Github size={16} />
+                GitHub <Github size={14} />
               </a>
             </div>
           </div>
