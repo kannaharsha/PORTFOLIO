@@ -939,7 +939,7 @@ export default function App() {
                         <span className="text-sm font-bold tracking-widest order-2 md:order-1">2023 - 2027</span>
                         <div className="bg-blue-900/40 p-2 rounded-lg border border-blue-800/50 order-1 md:order-2"><GraduationCap size={16} /></div>
                       </div>
-                      <h4 className="text-xl md:text-2xl font-bold text-white mb-2 leading-tight">B.Tech in AIML CSE</h4>
+                      <h4 className="text-xl md:text-2xl font-bold text-white mb-2 leading-tight">B.Tech CSE(AIML)</h4>
                       <p className="text-sm md:text-base text-blue-200/80 mb-6 flex flex-wrap items-center md:justify-end justify-start gap-1.5 leading-snug">
                         MVGR College of Engineering <span className="text-blue-500 font-black text-xs leading-none">•</span> Vizianagaram
                       </p>
