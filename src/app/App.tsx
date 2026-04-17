@@ -130,7 +130,7 @@ const certifications = [
   { title: "SQL Basic", org: "HackerRank", file: "/certifications/download.pdf" },
   { title: "Math and Statistics", org: "Codebasics", file: "/certifications/codebasics/PDF's/Math and Statistics.pdf" },
   { title: "Python (Codebasics)", org: "Codebasics", file: "/certifications/codebasics/PDF's/Python.pdf" },
-  { title: "Python Essentials 2", org: "Cisco Networking", file: "/certifications/CIsco/Python Essentials 2.pdf" },
+  { title: "Python Essentials 2", org: "Cisco Networking", file: "/certifications/CIsco/Python_Essentials_2_certificate_harshabokkena0001-gmail-com_06b97348-a3f1-45f6-96b6-31f6c1262973.pdf" },
   { title: "Machine Learning", org: "Codebasics", file: "/certifications/codebasics/PDF's/Machine Learning.pdf" },
   { title: "Natural Language Processing", org: "Codebasics", file: "/certifications/codebasics/PDF's/Natural langauge Processing.pdf", featured: true, highlight: "Specialized" },
   { title: "Deep Learning", org: "Codebasics", file: "/certifications/codebasics/PDF's/Deep learning.pdf", featured: true, highlight: "Specialized" },
